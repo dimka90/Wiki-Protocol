@@ -1,16 +1,13 @@
-
+use rlp::{Rlp};
 pub fn encode(bytes:&[u8]) -> Option<Vec<u8>>{
 let len = bytes.len();
-
 let mut result = Vec::new();
 if len == 1  && bytes[0] <=127 {
     result.extend_from_slice(bytes);
-
 }
 else if len <= 55 {
     result.push(0x80 + len as u8);
     result.extend_from_slice(bytes);
-    print!("loops 2");
 }
 Some(result)
 }
@@ -24,6 +21,8 @@ pub fn decode_to_hex(encoded_data:&[u8]) -> Option<String>{
 
 
 pub fn decode_to_text(encoded_data:&[u8]) -> Option<String>{
-    let result = String::from_utf8(encoded_data.to_vec()).unwrap();
+    let rlp = Rlp::new(&encoded_data);
+    let decoded: &[u8] = rlp.data().unwrap();
+    let result = String::from_utf8(decoded.to_vec()).unwrap();
     Some(result)
 }
