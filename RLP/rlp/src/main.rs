@@ -1,6 +1,7 @@
-pub  mod  rlp;
-
-use crate::rlp::serilazation::{encode, decode_to_text};
+pub mod deserialization;
+pub mod serialization;
+use crate::deserialization::decode::{decode_to_text};
+use crate::serialization::encode::encode;
 fn main() {
     let data: &[u8] = "Expert will go extinct, if there are no Learners ".as_bytes();
     let result = encode(data);
